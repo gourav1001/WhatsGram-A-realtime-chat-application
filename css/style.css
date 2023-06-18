@@ -48,6 +48,7 @@ body {
     border-radius: 7px;
     margin-bottom: 15px;
     border: 1px solid #efb4b3;
+    display: none;
 }
 
 .form form .name-details {
@@ -94,6 +95,7 @@ form .name-details .field:last-child {
     position: absolute;
     right: 19px;
     top: 50%;
+    color: #ccc;
     transform: translateY(23%);
     cursor: pointer;
 }
@@ -198,6 +200,14 @@ form .name-details .field:last-child {
     font-size: 14px;
     border-radius: 5px 0px 0px 5px;
     outline: none;
+    opacity: 0;
+    pointer-events: none;
+    transition: all 0.3s ease-in-out;
+}
+
+.users .search input.active {
+    opacity: 1;
+    pointer-events: auto;
 }
 
 .users .search button {
@@ -205,11 +215,17 @@ form .name-details .field:last-child {
     width: 37px;
     border: none;
     outline: none;
-    color: #feeff0;
-    background-color: #333333;
+    color: #333333;
+    background-color: #fff;
     cursor: pointer;
     border-radius: 0px 5px 5px 0px;
     font-size: 16px;
+    transition: all 0.3s ease-in-out;
+}
+
+.users .search button.active {
+    color: #feeff0;
+    background-color: #333333
 }
 
 .users-list {
