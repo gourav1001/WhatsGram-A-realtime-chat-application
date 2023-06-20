@@ -16,17 +16,17 @@
 
 <body>
     <div class="wrapper">
-        <section class="form signup">
+        <section class="form login">
             <header>Realtime Chat Application</header>
-            <form action="#">
-                <div class="error-txt">This is error message!</div>
+            <form action="#" method="post" autocomplete="off">
+                <div class="error-txt"></div>
                 <div class="field input">
-                    <label for="">Email</label>
-                    <input type="text" name="" id="" placeholder="Enter your Email">
+                    <label for="email">Email</label>
+                    <input type="text" name="email" id="email" required placeholder="Enter your Email">
                 </div>
                 <div class="field input">
-                    <label for="">Password</label>
-                    <input type="password" name="" id="" placeholder="Enter your Password">
+                    <label for="password">Password</label>
+                    <input type="password" name="password" id="password" required placeholder="Enter your Password">
                     <i class="fa-sharp fa-solid fa-eye"></i>
                 </div>
                 <div class="field button">
@@ -38,6 +38,7 @@
     </div>
     <!-- js -->
     <script src="./js/pass-show-hide.js"></script>
+    <script src="./js/login.js"></script>
 </body>
 
 </html>
