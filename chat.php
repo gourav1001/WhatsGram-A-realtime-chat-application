@@ -1,57 +1,52 @@
-<!DOCTYPE html>
-<html lang="en">
+<?php
+    // starting user session
+    session_start();
+    if(!isset($_SESSION['unique_id'])){// if user has not logged in
+        header("location: ./login.php"); // re-direct the user to the login page
+    }
+?>
 
-<head>
-    <meta charset="UTF-8">
-    <meta http-equiv="X-UA-Compatible" content="IE=edge">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <!-- custom css -->
-    <link rel="stylesheet" href="./css/style.css">
-    <!-- fontawesome v6.4.0 css cdn -->
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css"
-        integrity="sha512-iecdLmaskl7CVkqkXNQ/ZH/XLlvWZOJyj7Yy7tcenmpD1ypASozpmT/E0iPtmFIB46ZmdtAc9eNBvH0H/ZpiBw=="
-        crossorigin="anonymous" referrerpolicy="no-referrer" />
-    <title>Realtime Chat Application</title>
-</head>
+<?php
+    // includng header file
+    include_once "./php/header.php";
+?>
 
 <body>
     <div class="wrapper">
         <section class="chat-area">
             <header>
-                <a href="#" class="back-icon"><i class="fa-solid fa-arrow-left"></i></a>
-                <img src="./profilepic.jpg" alt="">
+                <?php
+                    // including db configuration
+                    include_once "./php/config.php";
+                    // getting the user id of the user selected for chat
+                    $user_id = mysqli_real_escape_string($conn, $_GET['user_id']);
+                    $query1 = "select * from users where unique_id='{$user_id}'";
+                    $sql1 = mysqli_query($conn, $query1);
+                    if($sql1){// if query executed successfully
+                        $row = mysqli_fetch_assoc($sql1);
+                    }else{
+                        exit("A fatal server encountered! Please re-try after sometime!");
+                    }
+                ?>
+                <a href="./users.php" class="back-icon"><i class="fa-solid fa-arrow-left"></i></a>
+                <img src="./php/<?php echo $row['img']; ?>" alt='"'.<?php echo $row['fname']; ?>.'"'>
                 <div class="details">
-                    <span>Gourav Nag</span>
-                    <p>Active Now</p>
+                    <span><?php echo $row['fname']." ".$row['lname']; ?></span>
+                    <p><?php echo $row['status']; ?></p>
                 </div>
             </header>
             <div class="chat-box">
-                <div class="chat outgoing">
-                    <div class="details">
-                        <p>
-                            Lorem ipsum dolor sit amet consectetur adipisicing elit. Alias sit id veniam cumque quod
-                            aliquid quibusdam atque corrupti maxime quo possimus dolorum quia in exercitationem
-                            voluptate dicta, quaerat expedita esse!
-                            wwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwww
-                        </p>
-                    </div>
-                </div>
-                <div class="chat incoming">
-                    <img src="./profilepic.jpg" alt="">
-                    <div class="details">
-                        <p>
-                            Lorem ipsum dolor sit amet consectetur adipisicing elit
-                            wwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwww
-                        </p>
-                    </div>
-                </div>
+                <!-- dynamic chat history fetched from mysql db  -->
             </div>
-            <form action="#" class="typing-area">
-                <input type="text" placeholder="Type your message here ...">
+            <form action="#" method="post" class="typing-area" autocomplete="off">
+                <input type="text" name="sender_id" hidden value="<?php echo $_SESSION['unique_id']; ?>">
+                <input type="text" name="receiver_id" hidden value="<?php echo $user_id; ?>">
+                <input type="text" name="message" class="input-msg" placeholder="Type your message here ...">
                 <button><i class="fa-brands fa-telegram fa-shake"></i></button>
             </form>
         </section>
     </div>
+    <script src="./js/chat.js"></script>
 </body>
 
 </html>

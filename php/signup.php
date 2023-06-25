@@ -75,8 +75,9 @@
         if(move_uploaded_file($imgTempName, $targetImgUrl)){// if the image is succesfully stored in server folder
             $userUniqueId = rand($timeStamp, 1000000000); // generating random user unique id
             $userStatus = "Active Now"; // setting user online status
+            $encryptedPasswd = password_hash($password, PASSWORD_BCRYPT); // hashed passwd
             // inserting validated user into mysql database
-            $query2 = "insert into users(unique_id, fname, lname, email, password, img, status) values ('{$userUniqueId}', '{$fname}', '{$lname}', '{$email}', '{$password}', '{$targetImgUrl}', '{$userStatus}')";
+            $query2 = "insert into users(unique_id, fname, lname, email, password, img, status) values ('{$userUniqueId}', '{$fname}', '{$lname}', '{$email}', '{$encryptedPasswd}', '{$targetImgUrl}', '{$userStatus}')";
             $sql2 = mysqli_query($conn, $query2);
             if($sql2){ // if validated user info data inserted succesfully in database
                 // creating session variable for the current user

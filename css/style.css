@@ -259,13 +259,13 @@ form .name-details .field:last-child {
 }
 
 .users-list a .status-dot {
-    color: #797575;
+    color: #0feb03;
     font-size: 10px;
 }
 
 /* user offline status */
-.users-list a .status-dot .offline {
-    color: #cccc;
+.users-list a .status-dot.offline {
+    color: /*#e40909cc;*/ #9d9a9acc;
 }
 
 /* chat area css styling begins here */

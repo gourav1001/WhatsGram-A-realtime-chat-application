@@ -1,33 +1,39 @@
-<!DOCTYPE html>
-<html lang="en">
+<?php
+    // starting user session
+    session_start();
+    if(!isset($_SESSION['unique_id'])){// if user has not logged in
+        header("location: ./login.php"); // re-direct the user to the login page
+    }
+?>
 
-<head>
-    <meta charset="UTF-8">
-    <meta http-equiv="X-UA-Compatible" content="IE=edge">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <!-- custom css -->
-    <link rel="stylesheet" href="./css/style.css">
-    <!-- fontawesome v6.4.0 css cdn -->
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css"
-        integrity="sha512-iecdLmaskl7CVkqkXNQ/ZH/XLlvWZOJyj7Yy7tcenmpD1ypASozpmT/E0iPtmFIB46ZmdtAc9eNBvH0H/ZpiBw=="
-        crossorigin="anonymous" referrerpolicy="no-referrer" />
-    <title>Realtime Chat Application</title>
-</head>
+<?php
+    // includng header file
+    include_once "./php/header.php";
+?>
 
 <body>
     <div class="wrapper">
         <section class="users">
             <header>
+                <?php
+                    // including db configuration
+                    include_once "./php/config.php";
+                    $query1 = "select * from users where unique_id='{$_SESSION['unique_id']}'";
+                    $sql1 = mysqli_query($conn, $query1);
+                    if($sql1){// if query executed successfully
+                        $row = mysqli_fetch_assoc($sql1);
+                    }
+                ?>
                 <div class="content">
-                    <img src="./profilepic.jpg" alt="">
+                    <img src="./php/<?php echo $row['img']; ?>" alt='"'.<?php echo $row['fname']; ?>.'"'>
                     <div class="details">
-                        <span>Gourav Nag</span>
-                        <p>Active Now</p>
+                        <span><?php echo $row['fname']." ".$row['lname']; ?></span>
+                        <p><?php echo $row['status']; ?></p>
                     </div>
                 </div>
                 <button class="logout">
                     <i class="fa-solid fa-right-from-bracket fa-fade"></i>
-                    <a href="#">logout</a>
+                    <a href="./php/logout.php?user_id=<?php echo $row['unique_id']; ?>">logout</a>
                 </button>
             </header>
             <div class="search">
@@ -36,94 +42,11 @@
                 <button><i class="fa-solid fa-magnifying-glass fa-beat-fade"></i></button>
             </div>
             <div class="users-list">
-                <a href="#">
-                    <div class="content">
-                        <img src="./profilepic.jpg" alt="">
-                        <div class="details">
-                            <span>Gourav Nag</span>
-                            <p>Test message</p>
-                        </div>
-                    </div>
-                    <div class="status-dot">
-                        <i class="fa-solid fa-circle"></i>
-                    </div>
-                </a>
-                <a href="#">
-                    <div class="content">
-                        <img src="./profilepic.jpg" alt="">
-                        <div class="details">
-                            <span>Gourav Nag</span>
-                            <p>Test message</p>
-                        </div>
-                    </div>
-                    <div class="status-dot">
-                        <i class="fa-solid fa-circle"></i>
-                    </div>
-                </a>
-                <a href="#">
-                    <div class="content">
-                        <img src="./profilepic.jpg" alt="">
-                        <div class="details">
-                            <span>Gourav Nag</span>
-                            <p>Test message</p>
-                        </div>
-                    </div>
-                    <div class="status-dot">
-                        <i class="fa-solid fa-circle"></i>
-                    </div>
-                </a>
-                <a href="#">
-                    <div class="content">
-                        <img src="./profilepic.jpg" alt="">
-                        <div class="details">
-                            <span>Gourav Nag</span>
-                            <p>Test message</p>
-                        </div>
-                    </div>
-                    <div class="status-dot">
-                        <i class="fa-solid fa-circle"></i>
-                    </div>
-                </a>
-                <a href="#">
-                    <div class="content">
-                        <img src="./profilepic.jpg" alt="">
-                        <div class="details">
-                            <span>Gourav Nag</span>
-                            <p>Test message</p>
-                        </div>
-                    </div>
-                    <div class="status-dot">
-                        <i class="fa-solid fa-circle"></i>
-                    </div>
-                </a>
-                <a href="#">
-                    <div class="content">
-                        <img src="./profilepic.jpg" alt="">
-                        <div class="details">
-                            <span>Gourav Nag</span>
-                            <p>Test message</p>
-                        </div>
-                    </div>
-                    <div class="status-dot">
-                        <i class="fa-solid fa-circle"></i>
-                    </div>
-                </a>
-                <a href="#">
-                    <div class="content">
-                        <img src="./profilepic.jpg" alt="">
-                        <div class="details">
-                            <span>Gourav Nag</span>
-                            <p>Test message</p>
-                        </div>
-                    </div>
-                    <div class="status-dot">
-                        <i class="fa-solid fa-circle"></i>
-                    </div>
-                </a>
+                <!-- dynamically fetched users from the db -->
             </div>
         </section>
     </div>
-    <script src="./js/users-search.js"></script>
+    <script src="./js/users.js"></script>
 </body>
 
 </html>

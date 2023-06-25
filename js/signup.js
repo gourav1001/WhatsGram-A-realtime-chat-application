@@ -15,7 +15,6 @@ continueToChatBtn.onclick = () => {
             if(xhr.status === 200){
                 let serverResponse = xhr.response;
                 if(serverResponse === "success"){
-                    window.alert("User successfully registered!");
                     window.location.href = "users.php";
                 }else{// displaying the error message received from the server
                     errorTxt.textContent = serverResponse;
