@@ -14,12 +14,38 @@ body {
     align-items: center;
     justify-content: center;
     min-height: 100vh;
-    background: #f7f7f7;
+    /* background: #f7f7f7; */
+}
+
+#pageLoadSpinnerWrapper{
+    background-color: #fff;
+    position: fixed;
+    top:0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    z-index: 99999;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    transition: all 0.2s;
+    opacity: 0.9;
+}
+
+#pageLoadSpinnerWrapper p{
+    font-size: 17px;
+    font-weight: 500;
+    margin: 13px 1px;
+}
+
+#pageLoadSpinner{
+    width: 80px;
+    height: 80px;
 }
 
 .wrapper {
     background: #fff;
-    width: 450px;
+    /* width: 450px; */
     border-radius: 16px;
     box-shadow: 0 0 128px 0 rgb(0, 0, 0, 0.1), 0 32px 64px -48px rgb(0, 0, 0, 0.5);
 }
@@ -30,14 +56,24 @@ body {
 }
 
 .form header {
-    font-size: 25px;
-    font-weight: 600;
-    padding-bottom: 10px;
+    display: flex;
+    /* padding-bottom: 3px; */
     border-bottom: 1px solid #e6e6e6;
 }
 
+.form header p{
+    font-size: 25px;
+    font-weight: 600;
+}
+
+.form header  img{
+    width: 40px;
+    height: 40px;
+    margin: 0 9px 0 0px;
+}
+
 .form form {
-    padding: 20px 0;
+    padding: 15px 0;
 }
 
 .form form .error-txt {
@@ -74,9 +110,9 @@ form .name-details .field:last-child {
     margin-bottom: 10px;
 }
 
-.form form .field input {
+/* .form form .field input {
     outline: none;
-}
+} */
 
 .form form .input input {
     height: 40px;
@@ -127,6 +163,24 @@ form .name-details .field:last-child {
     color: #0000ff;
 }
 
+.required-field{
+    color: #fc0303;
+    margin: 2px;
+}
+
+.form-info{
+    color: #fc0303;
+    font-size: 13px;
+    font-weight: 400;
+    margin: 7px 0 0 4px;
+}
+
+.display-pic-info{
+    font-size: 12px;
+    color: #fc0303;
+    margin: 3px 0 0 0;
+}
+
 /* user form styling starts here */
 .users {
     padding: 25px 30px;
@@ -134,19 +188,47 @@ form .name-details .field:last-child {
 
 .users header,
 .users-list a {
+    text-decoration: none;
     display: flex;
     align-items: center;
     justify-content: space-between;
     border-bottom: 1px solid #e6e6e6;
-    padding-bottom: 20px;
+    padding-bottom: 9px;
 }
 
-.users header img {
+.users header .content img {
     width: 70px;
     height: 70px;
 }
 
-:is(.users, .users-list) img {
+.users .details .user-name {
+    font-size: 20px;
+    font-weight: 500;
+    margin-left: 3px;
+}
+
+.users header .content .details .users-status{
+    display: flex;
+}
+
+.users header .content .details .users-status p{
+    font-size: 12px;
+    font-weight: 400;
+}
+
+.users header .content .details .users-status img {
+    width: 12px;
+    height: 12px;
+    margin: 3px 6px 0 5px;
+}
+
+.users-list a .users-status img{
+    width: 12px;
+    height: 12px;
+    margin: 3px 0 0 5px;
+}
+
+:is(.users, .user-display-pic) img {
     object-fit: cover;
     border-radius: 50%;
 }
@@ -161,9 +243,14 @@ form .name-details .field:last-child {
     color: #000;
 }
 
-:is(.users, .users-list) .details span {
-    font-size: 20px;
-    font-weight: 500;
+.users-list .details span {
+    font-size: 16px;
+    font-weight: 450;
+}
+
+.users-list .details p {
+    font-size: 14px;
+    font-weight: 400;
 }
 
 .users header .logout {
@@ -171,16 +258,17 @@ form .name-details .field:last-child {
     background: #373434;
     padding: 9px 15px;
     border-radius: 23px;
-    font-size: 16px;
+    font-size: 14px;
 }
 
 .users header .logout a {
+    text-decoration: none;
     color: #feeff0;
     padding-left: 2px;
 }
 
 .users .search {
-    margin: 15px 0px;
+    margin: 7px 0px 23px;
     display: flex;
     align-items: center;
     position: relative;
@@ -272,7 +360,7 @@ form .name-details .field:last-child {
 .chat-area header {
     align-items: center;
     display: flex;
-    padding: 23px 24px;
+    padding: 17px 24px 7px;
 }
 
 .chat-area header .back-icon {
@@ -287,9 +375,25 @@ form .name-details .field:last-child {
     margin: 0px 15px;
 }
 
-.chat-area header span {
+.chat-area header .user-name {
     font-size: 19px;
     font-weight: 500;
+}
+
+.chat-area header .user-status {
+    display: flex;
+}
+
+.chat-area header .user-status p {
+    font-size: 12px;
+    font-weight: 400;
+    margin-left: 5px;
+}
+
+.chat-area header .user-status img{
+    width: 11px;
+    height: 11px;
+    margin: 3px 2px;
 }
 
 .chat-box {
@@ -306,6 +410,8 @@ form .name-details .field:last-child {
 }
 
 .chat-box .chat p {
+    font-size: 14px;
+    font-weight: 400;
     padding: 8px 16px;
 }
 
@@ -316,7 +422,6 @@ form .name-details .field:last-child {
 .outgoing .details {
     margin-left: auto;
     max-width: calc(100% - 130px);
-
 }
 
 .outgoing .details p {

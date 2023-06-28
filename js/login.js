@@ -1,11 +1,10 @@
+console.log("login script loaded!");
 const form = document.querySelector(".login form"),
     continueToChatBtn = form.querySelector(".button input"),
     errorTxt = form.querySelector(".error-txt");
-
 form.onsubmit = (e) => {
     e.preventDefault(); // prevent form from re-loading
 }
-
 continueToChatBtn.onclick = () => {
     // instantiating xml object
     let xhr = new XMLHttpRequest();
@@ -19,6 +18,7 @@ continueToChatBtn.onclick = () => {
                 }else{// displaying the error message received from the server
                     errorTxt.textContent = serverResponse;
                     errorTxt.style.display = "block";
+                    $(".error-txt").fadeOut(5000);
                 }
             }
         }

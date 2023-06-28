@@ -3,6 +3,15 @@ const form = document.querySelector("form"),
 inputMessageField = document.querySelector(".input-msg"),
 sendBtn = document.querySelector("button"),
 chatBox = document.querySelector(".chat-box");
+// hiding spninner after 1.3s
+$(document).ready(() => {
+    setTimeout(() => {
+        $('#pageLoadSpinnerWrapper').css({
+            'opacity': '0',
+            'display': 'none',
+        });
+    }, 1300);
+});
 form.onsubmit = (e) => {
     e.preventDefault(); // prevent form from re-loading
 }
@@ -26,7 +35,7 @@ sendBtn.onclick = ()=>{
     let formData = new FormData(form);
     xhr.send(formData);// sending form data to php
 };
-// ajax for getting the chat after every 1s
+// ajax for getting the chat after every 500ms
 setInterval(()=>{
     let xhr = new XMLHttpRequest();
     xhr.open("POST", "./php/get-chat.php", true);

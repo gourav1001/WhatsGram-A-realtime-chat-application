@@ -2,12 +2,13 @@
     // strting php session for the current user
     session_start();
     // inclusing db config for establishing mysql database connection
-    include_once "config.php";
+    include_once "./db-config.php";
     // fetching user filled form data
     $fname = mysqli_real_escape_string($conn, $_POST['fname']);
     $lname = mysqli_real_escape_string($conn, $_POST['lname']);
     $email = mysqli_real_escape_string($conn, $_POST['email']);
     $password = mysqli_real_escape_string($conn, $_POST['password']);
+    $confirmedPassword = mysqli_real_escape_string($conn, $_POST['confirmedPassword']);
     $imgName = '';
     $imgType = '';
     $imgTempName = '';
@@ -22,20 +23,30 @@
             echo "Invalid name! Please specify your valid name!";
             $formDataValidated = false;
         }
+        // capitalizing 1st character of fname and lname
+        $fname = ucfirst($fname);
+        $lname = ucfirst($lname);
         // validating email address
         $email = filter_var($email, FILTER_SANITIZE_EMAIL);
         if($formDataValidated && filter_var($email, FILTER_VALIDATE_EMAIL)){
             // checking if email id already exist in database or not
-            $query1 = "select email from users where email='{$email}'";
-            $sql1 = mysqli_query($conn, $query1);
-            if(mysqli_num_rows($sql1) > 0){
+            $sql1 = "select email from users where email='{$email}'";
+            $query1 = mysqli_query($conn, $sql1);
+            if(mysqli_num_rows($query1) > 0){
                 echo "$email already exists! You have already signed up!";
                 $formDataValidated = false;
             }
         }elseif($formDataValidated && !filter_var($email, FILTER_VALIDATE_EMAIL)){
             echo "$email is not a valid email address!";
             $formDataValidated = false;
-        }   
+        }
+        // validating password match
+        if($formDataValidated && ($password === $confirmedPassword)){// password match
+            $formDataValidated = true;
+        }elseif($formDataValidated && !($password === $confirmedPassword)){
+            echo "Passwords did not match! Please re-check!";
+            $formDataValidated = false;
+        }
         // validating image file upload
         if($formDataValidated && isset($_FILES['displayPic']) && $_FILES['displayPic']['error']  != 4){ // if file uploaded by user
             $imgName = $_FILES['displayPic']['name']; // getting the name of the file uploaded
@@ -74,14 +85,14 @@
         $targetImgUrl = $targetDir.$dpImgName; // setting the full path for storing the uploaded user dp
         if(move_uploaded_file($imgTempName, $targetImgUrl)){// if the image is succesfully stored in server folder
             $userUniqueId = rand($timeStamp, 1000000000); // generating random user unique id
-            $userStatus = "Active Now"; // setting user online status
-            $encryptedPasswd = password_hash($password, PASSWORD_BCRYPT); // hashed passwd
+            $userStatus = "Active now"; // setting user online status
+            $encryptedPasswd = password_hash($confirmedPassword, PASSWORD_BCRYPT); // hashed passwd
             // inserting validated user into mysql database
-            $query2 = "insert into users(unique_id, fname, lname, email, password, img, status) values ('{$userUniqueId}', '{$fname}', '{$lname}', '{$email}', '{$encryptedPasswd}', '{$targetImgUrl}', '{$userStatus}')";
-            $sql2 = mysqli_query($conn, $query2);
-            if($sql2){ // if validated user info data inserted succesfully in database
+            $sql2 = "insert into users(user_id, fname, lname, email, password, img, status) values ('{$userUniqueId}', '{$fname}', '{$lname}', '{$email}', '{$encryptedPasswd}', '{$targetImgUrl}', '{$userStatus}')";
+            $query2 = mysqli_query($conn, $sql2);
+            if($query2){ // if validated user info data inserted succesfully in database
                 // creating session variable for the current user
-                $_SESSION['unique_id'] = $userUniqueId;
+                $_SESSION['user_id'] = $userUniqueId;
                 echo "success";
             }else{
                 echo "error";
