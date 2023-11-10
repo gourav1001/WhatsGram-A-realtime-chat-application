@@ -10,7 +10,7 @@
         $message = mysqli_real_escape_string($conn, $_POST['message']);
         // updating the message records
         if(!empty($message)){// if messsages exists then insert into db  
-            $sql1 = "insert into messages(incoming_msg_id, outgoing_msg_id, message, time_stamp) values('{$receiver_id}', '{$sender_id}', '{$message}', sysdate())";
+            $sql1 = "insert into messages(incoming_msg_id, outgoing_msg_id, message, timestamp) values('{$receiver_id}', '{$sender_id}', '{$message}', sysdate())";
             $query1 = mysqli_query($conn, $sql1) or die("A fatal server error encountered! Please try after sometime");
             if($query1){// if query executed successfully
                 echo "success";
